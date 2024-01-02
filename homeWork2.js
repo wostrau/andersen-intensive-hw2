@@ -1,5 +1,5 @@
 function makeObjectDeepCopy(object) {
-    if (typeof object !== 'object') {
+    if (typeof object !== 'object' || object === null) {
         return object;
     }
 
@@ -41,14 +41,14 @@ function selectFromInterval(array, intervalValue1, intervalValue2) {
     return resultArray;
 }
 
+function isValidNumber(number) {
+    return typeof number === 'number' && !isNaN(number);
+}
+
 function iterateObject() {
     if (
-        this.from === undefined ||
-        this.to === undefined ||
-        typeof this.from !== 'number' ||
-        typeof this.to !== 'number' ||
-        isNaN(this.from) ||
-        isNaN(this.to) ||
+        !isValidNumber(this.to) ||
+        !isValidNumber(this.from) ||
         this.to < this.from
     ) {
         throw new Error('Error!');
@@ -61,9 +61,9 @@ function iterateObject() {
         next() {
             if (current <= last) {
                 return { done: false, value: current++ };
-            } else {
-                return { done: true };
             }
+
+            return { done: true };
         },
     };
 }
